@@ -119,6 +119,21 @@
 			  <span>Reviews</span>
             </div>            
           </div>
+          <div class="fun-fact" data-fun-fact-color="#efa80f">
+         <div class="fun-fact-icon"><i class="icon-brand-blogger"></i></div>
+            <div class="fun-fact-text"> 
+            <h4>
+              <?php
+                $id_company = $_SESSION['id_company'];
+                $sql = "SELECT * FROM blogs WHERE createdby = '$id_company'";
+                $query = $conn->query($sql);
+
+                echo $query->num_rows;
+                ?> 
+            </h4>
+            <span>Blogs</span>
+            </div>            
+          </div>
           <?php endif; ?>
 
 

@@ -48,6 +48,7 @@
                       <th>Logo</th>
                       <th>Company Name</th>
                       <th>Industry</th>
+                      <th>Email</th>
                       <th>Telephone</th>
                       <th>Website</th>
                       <th>Region</th>
@@ -85,15 +86,17 @@
                                 <td><img height='50' width='50' src='../assets/images/".$row['profile_pic']."'></td>
                                 <td>".$row['companyname']."</td>
                                 <td>".$industry[0]."</td>
+                                <td>".$row['email']."</td>
                                 <td>".$row['contactno']."</td>
                                 <td>".$row['website']."</td>
                                 <td>".$state_id[0]."</td>
                                 <td>".$city_id[0]."</td>
                                 <td>".$row['address']."</td>
-                                <td><a class='button green ripple-effect ico view popup-with-zoom-anim' href='#' data-id=".$company_id." title='View' data-tippy-placement='top'><i class='icon-feather-eye'></i></a>
+                                <td>
                                 <a href='#' class='button red ripple-effect ico delete' data-id='".$company_id."' onclick='return confirm('Do you want to delete this job post?')' title='Remove' data-tippy-placement='top'><i class='icon-feather-trash-2'></i></a> 
                                 </td>
                                 </tr>";
+                                //<a class='button green ripple-effect ico view popup-with-zoom-anim' href='#' data-id=".$company_id." title='View' data-tippy-placement='top'><i class='icon-feather-eye'></i></a>
                             $i++;
                           }
                         ?>

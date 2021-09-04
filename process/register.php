@@ -30,7 +30,7 @@
 		if($query->num_rows > 0){
             $_SESSION['message'] = 'Email Address Already Exits!! Please Login.!';
             $_SESSION['messagetype'] = 'warning'; 
-            header('location: ../register.php');
+            header('location: ../login.php');
             exit();
          }
         else{ 
@@ -74,7 +74,7 @@
 								<p>Hi '.$fullname.',</p>
 								<p>Thank you for registering your account. To finally activate your account please click the following link.</p>
 								<p>Click The Link Below To Confirm your email address</p>
-								<a href="127.0.0.1/JobPortal/process/emailVerification.php?token='.$hash.'&email='.$email.'">127.0.0.1/JobPortal/process/emailVerification.php?token='.$hash.'&email='.$email.'</a>
+								<a href="127.0.0.1/JobPortal/process/emailVerification.php?token='.$hash.'&email='.$email.'&id='.$acctype.'">127.0.0.1/JobPortal/process/emailVerification.php?token='.$hash.'&email='.$email.'&id='.$acctype.'</a>
 								<p>If clicking the link does not work, you can copy the link into your browser window or type it there directly.</p>
 								<p><strong>NOTE:</strong> Ignore the E-Mail if the request to activate your account does not come from you.</p>
                                 <img src="../assets/images/logo.png" >
@@ -96,6 +96,95 @@
 		$_SESSION['message'] = 'Fill all information';
 		$_SESSION['messagetype'] = 'warning';
 		header('location: ../register.php');
+		exit();
+	}
+
+
+
+	//-------------------------
+	//ADMIN
+	//-------------------------
+
+	// when creating admin accout
+	if(isset($_POST['aregisterbtn'])){
+		$fullname = $_POST['fullname'];
+		$email = $_POST['email'];
+		$password = $_POST['password'];
+		$password = password_hash($password, PASSWORD_DEFAULT);
+        $createdat = date('Y-m-d');
+        $role_id = 3;
+        //generate hash
+		$hash = md5($password);
+
+
+        //checking if email already exists
+        $sql = "SELECT * FROM admin WHERE email='$email'";
+		$query = $conn->query($sql);
+		if($query->num_rows > 0){
+            $_SESSION['message'] = 'Email Address Already Exits!!';
+            $_SESSION['messagetype'] = 'warning'; 
+            header('location: ../dashboard/users.php');
+            exit();
+         }
+        else{ 
+        	//if it does not exist... register user
+        	
+        	$sql = "INSERT INTO admin (fullname, email, role_id, password, hash, createdat) VALUES ('$fullname', '$email', '$role_id', '$password', '$hash', '$createdat')"; 
+
+        	if($conn->query($sql)){
+				$_SESSION['message'] = 'Registration Complete!! Please check Email Inbox or Spam to confirm your email address before Login';
+				$_SESSION['messagetype'] = 'success';
+
+				//sending email 
+				$mail = new PHPMailer();
+
+				$mail->isSMTP();
+				$mail->Host = "smtp.gmail.com";
+				$mail->SMTPDebug = 2;
+				$mail->Debugoutput = 'html';
+				$mail->SMTPSecure = "tls";
+				$mail->Port = 587;
+				$mail->SMTPAuth = true;
+				$mail->SMTPOptions = array(
+				    'ssl' => array(
+				        'verify_peer' => false,
+				        'verify_peer_name' => false,
+				        'allow_self_signed' => true
+				    )
+				);
+				$mail->Username = 'careerpathway.co@gmail.com';
+				$mail->Password = 'P@$$w0rd11';
+
+				$mail->setFrom('careerpathway.co@gmail.com', 'Career Pathway');
+				$mail->addAddress($email, $fullname);
+				$mail->isHTML(true);
+				$mail->Subject = 'CAREER PATHWAY - Email Address Confirmation';
+				$mail->Body = '
+								<p>Hi '.$fullname.',</p>
+								<p>Thank you for registering your account. To finally activate your account please click the following link.</p>
+								<p>Click The Link Below To Confirm your email address</p>
+								<a href="127.0.0.1/JobPortal/process/emailVerification.php?token='.$hash.'&email='.$email.'&id='.$role_id.'">127.0.0.1/JobPortal/process/emailVerification.php?token='.$hash.'&email='.$email.'&id='.$role_id.'</a>
+								<p>If clicking the link does not work, you can copy the link into your browser window or type it there directly.</p>
+								<p><strong>NOTE:</strong> Ignore the E-Mail if the request to activate your account does not come from you.</p>
+                                <img src="../assets/images/logo.png" >
+							';
+				$mail->send();
+
+				header('location: ../dashboard/users.php');
+				exit();
+			}
+			else{
+				$_SESSION['message'] = $conn->error;
+				$_SESSION['messagetype'] = 'warning';
+				header('location: ../dashboard/users.php');
+				exit();
+			}
+        }
+	}	
+	else{
+		$_SESSION['message'] = 'Fill all information';
+		$_SESSION['messagetype'] = 'warning';
+		header('location: ../dashboard/users.php');
 		exit();
 	}
 ?>

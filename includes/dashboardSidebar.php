@@ -130,6 +130,15 @@
                 <li><a href="companyReviews.php"><i class="icon-material-outline-rate-review"></i> Reviews <span class="nav-tag">
                 0
                 </span></a></li>
+                <li><a href="allBlogs.php"><i class="icon-brand-blogger"></i> Blogs <span class="nav-tag">
+                  <?php
+                  $id_company = $_SESSION['id_company'];
+                  $sql = "SELECT * FROM blogs WHERE createdby = '$id_company'";
+                  $query = $conn->query($sql);
+
+                  echo $query->num_rows;
+                  ?>    
+                </span></a></li>
                 <li><a href="myProfile.php"><i class="icon-feather-user"></i> My Profile</a></li>
                 <li><a href="../process/logout.php"><i class="icon-material-outline-power-settings-new"></i> Logout</a></li>
                 <?php endif; ?>
@@ -170,6 +179,7 @@
                   echo $query->num_rows;
                   ?>    
                 </span></a></li>
+                <li><a href="users.php"><i class="icon-material-outline-group"></i> Users - Admin</a></li>
                 <li><a href="myProfile.php"><i class="icon-feather-user"></i> My Profile</a></li>
                 <li><a href="../process/logout.php"><i class="icon-material-outline-power-settings-new"></i> Logout</a></li>
                 <?php endif; ?>

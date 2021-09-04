@@ -5,8 +5,6 @@
 <?php include '../includes/dashboardHeader.php'; ?>
 <!-- Header end -->
 
-<!-- account type -->
-<?php include '../includes/adminDashboard.php'; ?>
 <body>
 <!--Loader-->
 <?php include '../includes/loader.php'; ?>
@@ -32,7 +30,6 @@
 	  <div class="utf-dashboard-content-inner-aera">   
 	  <!-- error message  -->
     <?php include '../includes/errorMessage.php' ?>
-    
 
     <div class="row"> 
       <div class="col-xl-12">
@@ -53,7 +50,12 @@
                     </thead>
                     <tbody>
                         <?php
-                          $sql =  "SELECT * FROM blogs ORDER BY id DESC";
+                          if ($_SESSION['role_id'] == 3):
+                            $sql =  "SELECT * FROM blogs ORDER BY id DESC";
+                          endif;
+                          if ($_SESSION['role_id'] == 2):
+                            $sql =  "SELECT * FROM blogs WHERE createdby = '$_SESSION[id_company]' ORDER BY id DESC";
+                          endif;
                           $query = $conn->query($sql);
                          //id auto increament in tables initiation
                           $i = 1;
@@ -78,7 +80,7 @@
                                 <td><p class='text-truancation'>".$row['blog']."</p></td>
                                 <td>".$industry[0]."</td>
                                 <td>".$posted[0]."</td>
-                                <td><a class='button green ripple-effect ico view popup-with-zoom-anim' href='#' data-id=".$blog_id." title='View' data-tippy-placement='top'><i class='icon-feather-eye'></i></a>
+                                <td><a class='button green ripple-effect ico view popup-with-zoom-anim' href='#small-dialog-1' data-id=".$blog_id." title='View' data-tippy-placement='top'><i class='icon-feather-eye'></i></a>
 
                               <a href='#'' class='button red ripple-effect ico delete' data-id='".$blog_id."' onclick='return confirm('Do you want to delete this job post?')' title='Remove' data-tippy-placement='top'><i class='icon-feather-trash-2'></i></a> 
                                 </td>
@@ -105,7 +107,7 @@
 <!-- Wrapper / End --> 
 
 <!-- Edit View Popup -->
-<!-- <?php include '../modals/viewJob.php' ?> -->
+<?php include '../modals/viewBlog.php' ?> 
 <!-- Edit View Popup / End --> 
 
 <!-- Scripts -->
@@ -118,31 +120,23 @@ $(document).on("click", ".view", function(e){
     e.preventDefault();
     var id = $(this).data('id');
     var name = "view";
-    // getRow(id, name);
+    getRow(id, name);
     
 }); 
 
 function getRow(id, name){
   $.ajax({
     type: 'POST',
-    url: '../process/jobpost_row.php',
+    url: '../process/blog_row.php',
     data: {id:id, name:name},
     dataType: 'json',
     success: function(response){
         // view
-        $('#jobtitle_header').html(response.jobtitle);
-        $('#jobdescription').html(response.description);
-        $('#skills').html(response.skills_ability);
-        $('#responsibility').html(response.responsibility);
-        $('#salary').html('GH₵'+response.minimumsalary+' - GH₵'+response.maximumsalary);
+        $('#title').html(response.blog_title);
+        $('#blog').html(response.blog);
         $('#industry').html(response.industry);
         $('#createdat').html(response.createdat);
-        $('#edu_qualification').html(response.edu_qualification);
-        $('#id_company').html(response.company);
-        $('#experience').html(response.experience+" Years");
-        $('#job_status').html(response.jobtype);
-        $('#location').html(response.state+" - "+response.city);
-        $('#deadline').html(response.deadline);
+        $('#createdby').html(response.company);
     }
   });
 }

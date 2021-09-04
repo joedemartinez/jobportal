@@ -560,7 +560,7 @@
                               <div class="upload-button"></div>
                               <form method="POST" action="../process/changePic.php" enctype="multipart/form-data">
                                 <input class="file-upload" type="file" name="picture" accept="image/*" required="">
-                                <button type="submit" class="button ripple-effect big margin-top-10" name="myPic">Changes Profile Pic</a> 
+                                <button type="submit" class="button ripple-effect big margin-top-10" name="aPic">Changes Profile Pic</a> 
                               </form>
                             </div>
                           </div>
@@ -657,7 +657,7 @@
                     </div> 
                   </div>                
                 </div>
-                <button type="submit" name="myPassword" id="regisbtn" class="button ripple-effect big margin-top-10">Changes Password</button> 
+                <button type="submit" name="aPassword" id="regisbtn" class="button ripple-effect big margin-top-10">Changes Password</button> 
                 </form>
               </div>        
             </div>
@@ -668,7 +668,7 @@
               </div>
               <div class="content with-padding">
                 <form method="POST" action="#">
-                <button type="submit" name="myPassword"  class="button ripple-effect big margin-top-10"> Deactivate Account</button> 
+                <button type="submit" name="aPassword"  class="button ripple-effect big margin-top-10"> Deactivate Account</button> 
                 </form>
               </div>        
             </div>

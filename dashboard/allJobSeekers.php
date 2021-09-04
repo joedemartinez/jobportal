@@ -90,7 +90,7 @@
                                 <td>".$state_id[0]."</td>
                                 <td>".$city_id[0]."</td>
                                 <td>".$row['address']."</td>
-                                <td><a class='button green ripple-effect ico view popup-with-zoom-anim' href='#' data-id=".$id_user." title='View' data-tippy-placement='top'><i class='icon-feather-eye'></i></a>
+                                <td><a class='button green ripple-effect ico view popup-with-zoom-anim' href='#small-dialog-1' data-id=".$id_user." title='View' data-tippy-placement='top'><i class='icon-feather-eye'></i></a>
                                 <a href='#' class='button red ripple-effect ico delete' data-id='".$id_user."' onclick='return confirm('Do you want to delete this job post?')' title='Remove' data-tippy-placement='top'><i class='icon-feather-trash-2'></i></a> 
                                 </td>
                                 </tr>";
@@ -116,7 +116,7 @@
 <!-- Wrapper / End --> 
 
 <!-- Edit View Popup -->
-<!-- <?php include '../modals/viewJob.php' ?> -->
+<?php include '../modals/viewJobSeeker.php' ?> 
 <!-- Edit View Popup / End --> 
 
 <!-- Scripts -->
@@ -129,31 +129,32 @@ $(document).on("click", ".view", function(e){
     e.preventDefault();
     var id = $(this).data('id');
     var name = "view";
-    // getRow(id, name);
+    getRow(id, name);
     
 }); 
 
 function getRow(id, name){
   $.ajax({
     type: 'POST',
-    url: '../process/jobpost_row.php',
+    url: '../process/jobseeker_row.php',
     data: {id:id, name:name},
     dataType: 'json',
     success: function(response){
         // view
-        $('#jobtitle_header').html(response.jobtitle);
-        $('#jobdescription').html(response.description);
-        $('#skills').html(response.skills_ability);
-        $('#responsibility').html(response.responsibility);
-        $('#salary').html('GH₵'+response.minimumsalary+' - GH₵'+response.maximumsalary);
-        $('#industry').html(response.industry);
-        $('#createdat').html(response.createdat);
-        $('#edu_qualification').html(response.edu_qualification);
-        $('#id_company').html(response.company);
-        $('#experience').html(response.experience+" Years");
-        $('#job_status').html(response.jobtype);
-        $('#location').html(response.state+" - "+response.city);
-        $('#deadline').html(response.deadline);
+        $('#fullname').val(response.fullname);
+        $('#email').val(response.email);
+        $('#aboutme').val(response.aboutme);
+        $('#headline').val(response.headline);
+        $('#phoneno').val(response.contactno);
+        $('#dob').val(response.dob);
+        $('#gender').val(response.gender);
+        $('#region').val(response.state_id);
+        $('#city').val(response.city_id);
+        $('#address').val(response.address);
+        $('#education').val(response.education);
+        $('#career').val(response.industry);
+        $('#skills').val(response.skills);
+        $('#profile_pic').src('../assets/images/'+response.profile_pic);
     }
   });
 }

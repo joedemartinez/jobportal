@@ -10,9 +10,9 @@ Username: joshuaagyemang1@gmail.com
 Password: password
 
 Company
-Username: joshuaagyemang@gmail.com 
+Username: joshuaagyemang1@gmail.com 
 Password: password
 
 Admin
-Username: joshuaagyeman@gmail.com 
+Username: joshuaagyemang1@gmail.com 
 Password: password

@@ -4,8 +4,18 @@
 	if(isset($_GET['token'])){
 		$token = $_GET['token'];
 		$email = $_GET['email'];
+		$acctype = $_GET['id'];
 
-		$sql = "SELECT * FROM users WHERE email = '$email' AND hash = '$token'";
+		if ($acctype == 1) {
+			$sql = "SELECT * FROM users WHERE email = '$email' AND hash = '$token'";
+		}
+		elseif ($acctype === 2) {
+			$sql = "SELECT * FROM company WHERE email = '$email' AND hash = '$token'";
+		}
+		else {
+			$sql = "SELECT * FROM admin WHERE email = '$email' AND hash = '$token'";
+		}
+
 		$query = $conn->query($sql);
 
 
@@ -17,7 +27,16 @@
 		else{
 			$row = $query->fetch_assoc();
 			if($row['active'] == '0'){
-				$sql1 = "UPDATE users SET active='1' WHERE email='$email' AND hash='$token'";
+				if ($acctype == 1) {
+					$sql1 = "UPDATE users SET active='1' WHERE email='$email' AND hash='$token'";
+				}
+				elseif ($acctype === 2) {
+				$sql = "UPDATE company SET active='1' WHERE email='$email' AND hash='$token'";
+				}
+				else {
+					$sql = "UPDATE admin SET active='1' WHERE email='$email' AND hash='$token'";
+				}
+
 				if($conn->query($sql1)) {
 					$_SESSION['message'] = 'Email Confirmation Successful';
 					$_SESSION['messagetype'] = 'success';
@@ -34,6 +53,6 @@
 		$_SESSION['messagetype'] = 'warning';
 	}
 
-	header('location: ../login.php');
+	header('location: ../aLogin.php');
 	exit();
 ?>
